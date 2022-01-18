@@ -1,5 +1,6 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
+  Alert,
   Button,
   StyleSheet,
   Text,
@@ -10,19 +11,21 @@ import {
 import {useAuth} from '../contexts/AuthContext';
 
 const LoginScreen = ({navigation}) => {
-  const {currentUser} = useAuth();
+  const {login, currentUser} = useAuth();
+  const [loading, setLoading] = useState(false);
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
-  const Login = () => {
-    return;
+
+  const Login = async () => {
+    setLoading(true);
+    try {
+      await login(email, password);
+      navigation.replace('Dashboard');
+    } catch (e) {
+      Alert.alert('Something went wrong');
+      setLoading(false);
+    }
   };
-//   useEffect(() => {
-//     if (currentUser) {
-//       navigation.replace('Dashboard');
-//     } else {
-//       navigation.replace('Login');
-//     }
-//   }, []);
   return (
     <View style={styles.container}>
       <TextInput
@@ -40,12 +43,16 @@ const LoginScreen = ({navigation}) => {
         keyboardType="default"
         style={styles.input}
       />
-      <TouchableOpacity style={styles.buttonPrimary}>
+      <TouchableOpacity
+        style={styles.buttonPrimary}
+        onPress={Login}
+        disabled={loading}>
         <Text style={styles.textPrimary}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonSecondary}
-        onPress={() => navigation.replace('Signup')}>
+        onPress={() => navigation.replace('Signup')}
+        disabled={loading}>
         <Text style={styles.textSecondary}>Signup</Text>
       </TouchableOpacity>
     </View>

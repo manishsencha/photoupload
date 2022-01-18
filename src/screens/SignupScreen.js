@@ -15,6 +15,7 @@ const SignupScreen = ({navigation}) => {
   const [password, onChangePassword] = useState('');
   const [confirmPassword, onChangeConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
   const Signup = async () => {
     setLoading(true);
     if (password !== confirmPassword) {
@@ -23,7 +24,7 @@ const SignupScreen = ({navigation}) => {
       return;
     }
     try {
-      signup(email, password);
+      await signup(email, password);
       navigation.replace('Dashboard');
     } catch (e) {
       Alert.alert('Something went wrong!!');
@@ -31,13 +32,13 @@ const SignupScreen = ({navigation}) => {
     }
   };
 
-  //   useEffect(() => {
-  //     if (currentUser) {
-  //       navigation.replace('Dashboard');
-  //     } else {
-  //       navigation.replace('Login');
-  //     }
-  //   }, [])
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     navigation.replace('Dashboard');
+  //   } else {
+  //     navigation.replace('Login');
+  //   }
+  // }, []);
   return (
     <View style={styles.container}>
       <TextInput

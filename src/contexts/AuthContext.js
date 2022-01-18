@@ -25,7 +25,6 @@ export function AuthProvider({children}) {
   }
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, user => {
-      console.log(user);
       setCurrentUser(user);
       setLoading(false);
     });
